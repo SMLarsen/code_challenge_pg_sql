@@ -29,13 +29,14 @@ $(document).ready(function () {
   });
 
   $('#treat-display').on('click', ".delete", function () {
-
     var treatId = $(this).data('id');
-    console.log(treatId);
-
     removeTreat(treatId);
   });
 
+    $('#treat-display').on('click', ".edit", function () {
+      var treatId = $(this).data('id');
+      editTreat(treatId);
+    });
 
   /**---------- AJAX Functions ----------**/
 
@@ -98,6 +99,11 @@ $(document).ready(function () {
       getTreats();
     });
   }
+
+function editTreat(treatId) {
+  console.log(treatId);
+  alert('We are sorry but the edit capability currently under construction.');
+}
 
   /** ---------- DOM Functions ----------**/
 
