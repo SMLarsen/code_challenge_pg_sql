@@ -86,5 +86,32 @@ router.get('/:searchArg', function(req, res) {
     });
 }); // end route search treats
 
+// Route: Delete treat
+router.delete('/delete/:id', function(req, res) {
+    var treatId = req.params.id;
+    // treatId = parseInt(treatId);
+
+    console.log('treat to delete: ', treatId);
+
+    pg.connect(connectionString, function(err, client, done) {
+        if (err) {
+            console.log('connection error: ', err);
+            res.sendStatus(500);
+        }
+
+        client.query(
+            'DELETE FROM treats WHERE id = $1', [treatId],
+            function(err, result) {
+                done();
+
+                if (err) {
+                    res.sendStatus(500);
+                } else {
+                    res.sendStatus(200);
+                }
+            }
+        );
+    });
+}); // end route Delete treat
 
 module.exports = router;

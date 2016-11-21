@@ -28,6 +28,15 @@ $(document).ready(function () {
     postTreat(newTreat);
   });
 
+  $('#treat-display').on('click', ".delete", function () {
+
+    var treatId = $(this).data('id');
+    console.log(treatId);
+
+    removeTreat(treatId);
+  });
+
+
   /**---------- AJAX Functions ----------**/
 
   // GET /treats
@@ -62,6 +71,19 @@ $(document).ready(function () {
       });
     });
   }
+
+  // Remove treat
+  function removeTreat(treatId) {
+    $.ajax({
+      method: 'DELETE',
+      url: '/treats/delete/' + treatId
+    })
+    .done(function () {
+      console.log('Delete /treats/', treatId);
+      clearDom();
+      getTreats();
+    });
+  } // end delete treat
 
   // POST /treats
   function postTreat(treat) {
@@ -101,10 +123,10 @@ $(document).ready(function () {
                   '<img src="' + treat.pic + '" class="u-max-full-width" />' +
                   '<div class="toggle row">' +
                   '<div class="six columns">' +
-                  '<button class="edit u-full-width">Edit</button>' +
+                  '<button class="edit u-full-width" data-id="' + treat.id +'">Edit</button>' +
                   '</div>' +
                   '<div class="six columns">' +
-                  '<button class="delete u-full-width">Delete</button>' +
+                  '<button class="delete u-full-width" data-id="' + treat.id +'">Delete</button>' +
                   '</div>' +
                   '</div>' +
                   '</div>' +
