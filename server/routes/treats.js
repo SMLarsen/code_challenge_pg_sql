@@ -23,7 +23,7 @@ router.get('/', function(req, res) {
                     console.log('select query error: ', err);
                     res.sendStatus(500);
                 }
-                console.log(result.rows);
+                // console.log(result.rows);
                 res.send(result.rows);
             }
         );
@@ -34,7 +34,6 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res) {
     console.log('post /');
     var treat = req.body;
-    console.log(treat);
 
     pg.connect(connectionString, function(err, client, done) {
         if (err) {
@@ -56,6 +55,36 @@ router.post('/', function(req, res) {
             });
     });
 }); // end route add treat
+
+// Route: search treats
+router.get('/:searchArg', function(req, res) {
+  var searchArg = '%' + req.params.searchArg + '%';
+
+    console.log('get /:searchArg', searchArg);
+
+    pg.connect(connectionString, function(err, client, done) {
+        console.log('connection started');
+        if (err) {
+            console.log('connection error: ', err);
+            res.sendStatus(500);
+        }
+
+        client.query(
+            "SELECT * FROM treats WHERE name LIKE $1",
+            [searchArg],
+            function(err, result) {
+                done(); // close the connection.
+
+                if (err) {
+                    console.log('select query error: ', err);
+                    res.sendStatus(500);
+                }
+                console.log(result.rows);
+                res.send(result.rows);
+            }
+        );
+    });
+}); // end route search treats
 
 
 module.exports = router;
