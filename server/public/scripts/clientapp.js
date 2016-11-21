@@ -24,7 +24,7 @@ $(document).ready(function () {
       description: treatDescription,
       url: treateURL
     };
-
+    console.log(newTreat);
     postTreat(newTreat);
   });
 
